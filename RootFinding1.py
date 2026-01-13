@@ -1,4 +1,7 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from scipy.special import legendre
+ 
 
 #Define Legendre Polynomials individually?
 
@@ -12,13 +15,20 @@ import numpy as np
 #to scan the entire domain 
 
 
+trial = legendre(2)
+trialder = trial.deriv()
+
+print(trial)
+
+print(trialder)
+
+print("see if I can eval ", trial(-0.57735))
+
 tol = 10**(-14)
 
-def P1(x):
-	return (3*x**2 - 1)/2
 
-def grad(
-def NRalgorithm( x, f(x), derf(x) ):
+def NRalgorithm( x, n):
+	
 	x0 = -1 
 	RootArr = []
 	while abs(f(x0)) > tol and x0 < 1:
@@ -29,3 +39,6 @@ def NRalgorithm( x, f(x), derf(x) ):
 
 	return RootArr
 
+
+#print("Evaluating P1", f1(-0.57735))
+#print("Second evaluation P1", f1(0.57735))
