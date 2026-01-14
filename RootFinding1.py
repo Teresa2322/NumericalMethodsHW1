@@ -56,8 +56,8 @@ def PolInd(N, k):
 		if i != k: #end point in range is otherwise excluded
 			j = (x - xpi[i-1])/(xpi[k-1] - xpi[i-1]) #accounting for index starts at 0
 			jarr.append(j)
-	product = np.prod(jarr)
-	return product
+	product = sp.prod(jarr)
+	return sp.simplify(product)
 
 print("Trial Polynomial", PolInd(3,1))
 print("Trial Evaluated Polynomial", PolInd(3,1).subs(x, 0.5))
@@ -94,3 +94,20 @@ plt.ylabel("y")
 plt.legend()
 plt.show()
 
+#Computing the weights
+#Will use simpson integration method, from class sample code
+def simp( a, b, n, f):
+	xk = np.linspace(a, b, 2*n+1)
+	fk = f(xk)
+	h = xk[1] - xk[0]
+	return h * (fk[0] + fk[-1] + 4*fk[1:-1:2].sum() + 2*fk[2:-2:2].sum()) / 3.0
+
+print("trying out simpson", simp(-1,1,100,np.sin))
+
+#function defining weights
+def weights(N, k):
+	phi = sp.lambdify(x, PolInd(N,k), modules='numpy')
+	integral = simp(-1,1,5000,phi)
+	return integral 
+
+print("trying out weights", weights(7,1))
