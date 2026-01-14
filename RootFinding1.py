@@ -77,14 +77,20 @@ phi_7f = sp.lambdify(x, PolInd(7,7), modules='numpy')
 #plot
 
 
-plt.plot(x_arr, P7(x_arr), label = 'P7') 
-plt.plot(x_arr, phi_1f(x_arr), label = 'phi_1')
-plt.plot(x_arr, phi_2f(x_arr), label = 'phi_2')
-plt.plot(x_arr, phi_3f(x_arr), label = 'phi_3')
-plt.plot(x_arr, phi_4f(x_arr), label = 'phi_4')
-plt.plot(x_arr, phi_5f(x_arr), label = 'phi_5')
-plt.plot(x_arr, phi_6f(x_arr), label = 'phi_6')
-plt.plot(x_arr, phi_7f(x_arr), label = 'phi_7')
+plt.plot(x_arr, P7(x_arr), label = 'P7', linestyle = '-') 
+
+plt.plot(x_arr, phi_1f(x_arr), label = 'phi_1',  linestyle = 'dashed')
+plt.plot(x_arr, phi_2f(x_arr), label = 'phi_2', linestyle = 'dashed')
+plt.plot(x_arr, phi_3f(x_arr), label = 'phi_3', linestyle = 'dashed')
+plt.plot(x_arr, phi_4f(x_arr), label = 'phi_4', linestyle = 'dashed')
+plt.plot(x_arr, phi_5f(x_arr), label = 'phi_5', linestyle = 'dashed')
+plt.plot(x_arr, phi_6f(x_arr), label = 'phi_6', linestyle = 'dashed')
+plt.plot(x_arr, phi_7f(x_arr), label = 'phi_7', linestyle = 'dashed')
+
+plt.plot(NRalgorithm(7), P7(NRalgorithm(7)), marker = 'o', color = 'b', ms = 5,  linestyle = 'None')
+
+plt.xlabel("x")
+plt.ylabel("y")
 plt.legend()
 plt.show()
 
