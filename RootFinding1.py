@@ -102,12 +102,38 @@ def simp( a, b, n, f):
 	h = xk[1] - xk[0]
 	return h * (fk[0] + fk[-1] + 4*fk[1:-1:2].sum() + 2*fk[2:-2:2].sum()) / 3.0
 
-print("trying out simpson", simp(-1,1,100,np.sin))
+print("Trying out simpson", simp(-1,1,100,np.sin))
 
 #function defining weights
 def weights(N, k):
 	phi = sp.lambdify(x, PolInd(N,k), modules='numpy')
-	integral = simp(-1,1,5000,phi)
+	integral = simp(-1,1,5000,phi) #should probably reconsider how I def this 50000
+
 	return integral 
 
-print("trying out weights", weights(7,1))
+print("Trying out weights", weights(7,1))
+
+#Defining Quadrature Integration function
+
+def QuadInt(N, Nsub, a, b, f):
+	wk_arr  = [] 
+	for i in range(1,N+1):
+		wk_arr.append(weights(N, i)) #array of weights
+	xp_arr = NRalgorithm(N) #array of sample points
+	subint_arr = []
+	for j in range(0,Nsub): #this will  go from 0 to Nsub-1 as needed
+		
+		#endpoints for a given subinterval 
+		a_j = a + j*(b - a)/Nsub
+		a_jp1 = a + (j+1)*(b - a)/Nsub
+	
+		#I believe we need to adjust the sample points and weights 
+		#according to equations (2)-(4)
+		xp_adj_arr = xp_arr*(a_jp1 - a_j)/2 + (a_jp1 + a_j)/2
+		wk_adj_arr = wk_arr*(a_jp1 - a_j)/2
+		
+		int_i = np.sum(wk_adj_arr*f(xp_adj_arr))
+		subint_arr.append(int_i)
+	return np.sum(subint_arr)
+
+print("testing quadrature", Quadint(7, 3, 0, 1, np.exp)) 
