@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.special import legendre
- 
+import sympy as sp 
 
 #Define Legendre Polynomials individually?
 
@@ -15,7 +15,7 @@ from scipy.special import legendre
 #to scan the entire domain 
 
 tol = 10**(-15)
-
+x = sp.symbols('x')
 
 def NRalgorithm(n):
 
@@ -46,4 +46,17 @@ xp7 = NRalgorithm(7)
 #Sanity check: checking number of roots:
 print("length checks:", len(xp0), len(xp1), len(xp2), len(xp3), len(xp4), len(xp5), len(xp6), len(xp7))
 
+#Finding the indicator polynomials
 
+def PolInd(N, k):
+	xpi = NRalgorithm(N)
+	jarr = []
+	for i in range(1,N+1):
+		if i != k: #end point in range is otherwise excluded
+			j = (x - xpi[i-1])/(xpi[k-1] - xpi[i-1]) #accounting for index starts at 0
+			jarr.append(j)
+	product = np.prod(jarr)
+	return product
+
+print("Trial Polynomial", PolInd(3,1))
+print("Trial Evaluated Polynomial", PolInd(3,1).subs(x, 0.5))
