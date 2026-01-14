@@ -116,10 +116,11 @@ print("Trying out weights", weights(7,1))
 #Defining Quadrature Integration function
 
 def QuadInt(N, Nsub, a, b, f):
-	wk_arr  = [] 
+	wk_arr  = []
 	for i in range(1,N+1):
 		wk_arr.append(weights(N, i)) #array of weights
-	xp_arr = NRalgorithm(N) #array of sample points
+	npwk_arr = np.array(wk_arr)
+	xp_arr = np.array(NRalgorithm(N)) #array of sample points
 	subint_arr = []
 	for j in range(0,Nsub): #this will  go from 0 to Nsub-1 as needed
 		
@@ -130,10 +131,10 @@ def QuadInt(N, Nsub, a, b, f):
 		#I believe we need to adjust the sample points and weights 
 		#according to equations (2)-(4)
 		xp_adj_arr = xp_arr*(a_jp1 - a_j)/2 + (a_jp1 + a_j)/2
-		wk_adj_arr = wk_arr*(a_jp1 - a_j)/2
+		wk_adj_arr = npwk_arr*(a_jp1 - a_j)/2
 		
 		int_i = np.sum(wk_adj_arr*f(xp_adj_arr))
 		subint_arr.append(int_i)
 	return np.sum(subint_arr)
 
-print("testing quadrature", Quadint(7, 3, 0, 1, np.exp)) 
+print("testing quadrature", QuadInt(7, 3, 0, 1, np.exp)) 
