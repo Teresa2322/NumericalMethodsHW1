@@ -16,6 +16,7 @@ import sympy as sp
 
 tol = 10**(-15)
 x = sp.symbols('x')
+x_arr = np.linspace(-1,1,1000)
 
 def NRalgorithm(n):
 
@@ -60,3 +61,30 @@ def PolInd(N, k):
 
 print("Trial Polynomial", PolInd(3,1))
 print("Trial Evaluated Polynomial", PolInd(3,1).subs(x, 0.5))
+
+#N = 7 Legendre Polynomial
+P7 = legendre(7)
+
+#indicator polynomials for N = 7
+phi_1f = sp.lambdify(x, PolInd(7,1), modules='numpy')
+phi_2f = sp.lambdify(x, PolInd(7,2), modules='numpy')
+phi_3f = sp.lambdify(x, PolInd(7,3), modules='numpy')
+phi_4f = sp.lambdify(x, PolInd(7,4), modules='numpy')
+phi_5f = sp.lambdify(x, PolInd(7,5), modules='numpy')
+phi_6f = sp.lambdify(x, PolInd(7,6), modules='numpy')
+phi_7f = sp.lambdify(x, PolInd(7,7), modules='numpy')
+
+#plot
+
+
+plt.plot(x_arr, P7(x_arr), label = 'P7') 
+plt.plot(x_arr, phi_1f(x_arr), label = 'phi_1')
+plt.plot(x_arr, phi_2f(x_arr), label = 'phi_2')
+plt.plot(x_arr, phi_3f(x_arr), label = 'phi_3')
+plt.plot(x_arr, phi_4f(x_arr), label = 'phi_4')
+plt.plot(x_arr, phi_5f(x_arr), label = 'phi_5')
+plt.plot(x_arr, phi_6f(x_arr), label = 'phi_6')
+plt.plot(x_arr, phi_7f(x_arr), label = 'phi_7')
+plt.legend()
+plt.show()
+
