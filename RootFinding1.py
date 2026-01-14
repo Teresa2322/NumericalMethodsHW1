@@ -76,7 +76,7 @@ phi_7f = sp.lambdify(x, PolInd(7,7), modules='numpy')
 
 #plot
 
-
+'''
 plt.plot(x_arr, P7(x_arr), label = 'P7', linestyle = '-') 
 
 plt.plot(x_arr, phi_1f(x_arr), label = 'phi_1',  linestyle = 'dashed')
@@ -93,7 +93,7 @@ plt.xlabel("x")
 plt.ylabel("y")
 plt.legend()
 plt.show()
-
+'''
 #Computing the weights
 #Will use simpson integration method, from class sample code
 def simp( a, b, n, f):
@@ -137,4 +137,18 @@ def QuadInt(N, Nsub, a, b, f):
 		subint_arr.append(int_i)
 	return np.sum(subint_arr)
 
-print("testing quadrature", QuadInt(7, 3, 0, 1, np.exp)) 
+print("testing quadrature", QuadInt(7, 10, 0, 1, np.exp)) 
+
+#preliminary error analysis:
+
+Eval_arr = []
+for N_i in range(1,4):
+	Eval_i = QuadInt(7, N_i, 0, 1, np.exp)
+	Eval_arr.append(Eval_i)
+
+N_arr = np.linspace(1,3,3)
+
+print("Evals:", Eval_arr)
+
+plt.plot(N_arr, Eval_arr)
+plt.show()
