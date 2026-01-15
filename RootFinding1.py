@@ -76,7 +76,7 @@ phi_7f = sp.lambdify(x, PolInd(7,7), modules='numpy')
 
 #plot
 
-'''
+plt.figure(1)
 plt.plot(x_arr, P7(x_arr), label = 'P7', linestyle = '-') 
 
 plt.plot(x_arr, phi_1f(x_arr), label = 'phi_1',  linestyle = 'dashed')
@@ -92,15 +92,15 @@ plt.plot(NRalgorithm(7), P7(NRalgorithm(7)), marker = 'o', color = 'b', ms = 5, 
 plt.xlabel("x")
 plt.ylabel("y")
 plt.legend()
-plt.show()
-'''
+
+
 #Computing the weights
 #Will use simpson integration method, from class sample code
 def simp( a, b, n, f):
 	xk = np.linspace(a, b, 2*n+1)
 	fk = f(xk)
 	h = xk[1] - xk[0]
-	return h * (fk[0] + fk[-1] + 4*fk[1:-1:2].sum() + 2*fk[2:-2:2].sum()) / 3.0
+	return h*(fk[0] + fk[-1] + 4*fk[1:-1:2].sum() + 2*fk[2:-2:2].sum())/3.0
 
 print("Trying out simpson", simp(-1,1,100,np.sin))
 
@@ -143,7 +143,7 @@ def f1(x):
 f1_analytic = np.exp(1) - 1
 
 def f2(x):
-	return x**1/3 + 1/(1+100*(x-5)**2)
+	return x**(1/3) + 1/(1+100*(x-5)**2)
 # expected integral result f2 for given bounds: 15.7179202278389
 
 f2_analytic = 15.7179202278389
@@ -152,9 +152,9 @@ def f3(x):
 	return (x**5)*np.abs(x)
 # expected result for f3 for given bounds: − 431.4213979030774
 f3_analytic = -431.4213979030776
-
+print("testing quadrature function 1", QuadInt(7, 20, 0, 1, f1))
 print("testing quadrature function 2", QuadInt(7, 20, 1, 10, f2)) 
- 
+print("Function 2 real value is:",  15.7179202278389)
 print("testing quadrature function 3", QuadInt(7, 20, -np.pi, 4 - np.pi, f3))
 
 #preliminary error analysis:
@@ -163,18 +163,34 @@ Err1_arr = []
 Err2_arr = []
 Err3_arr = []
 
-for N_i in range(1,21):
-	Evalf1_i = QuadInt(7, N_i, 1, 10, f1)
+for N_i in range(1,151):
+	Evalf1_i = QuadInt(7, N_i, 0, 1, f1)
 	Evalf2_i = QuadInt(7, N_i, 1, 10, f2)
-	Evalf3_i = QuadInt(7, N_i, 1, 10, f3)
+	Evalf3_i = QuadInt(7, N_i, -np.pi, 4 - np.pi, f3)
 	
-	Err1_arr.append(f1_analytic - Evalf1_i)
-	Err2_arr.append(f2_analytic - Evalf2_i)
-	Err3_arr.append(f3_analytic - Evalf3_i)
+	Err1_arr.append(np.abs(f1_analytic - Evalf1_i))
+	Err2_arr.append(np.abs(f2_analytic - Evalf2_i))
+	Err3_arr.append(np.abs(f3_analytic - Evalf3_i))
 	
 
-N_arr = np.linspace(1,20,20)
+N_arr = np.linspace(1,150,150)
 
-plt.plot(N_arr, Err2_arr)
+plt.figure(2)
+plt.title("Function 1")
+plt.loglog(N_arr*N_arr, Err1_arr)
+plt.xlabel("N evaluations")
+plt.ylabel("Abs Error")
+
+plt.figure(3)
+plt.title("Function 2")
+plt.loglog(N_arr*N_arr, Err2_arr)
+plt.xlabel("N evaluations")
+plt.ylabel("Abs Error")
+
+plt.figure(4)
+plt.title("Function 3")
+plt.loglog(N_arr*N_arr, Err3_arr)
+plt.xlabel("N evaluations")
+plt.ylabel("Abs Error")
 
 plt.show()
