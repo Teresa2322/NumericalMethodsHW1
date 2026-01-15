@@ -175,7 +175,7 @@ Err1_arr = []
 Err2_arr = []
 Err3_arr = []
 
-for N_i in range(1,171):
+for N_i in range(1,201):
 	Evalf1_i = QuadInt(7, N_i, 0, 1, f1)
 	Evalf2_i = QuadInt(7, N_i, 1, 10, f2)
 	Evalf3_i = QuadInt(7, N_i, -np.pi, 4 - np.pi, f3)
@@ -185,7 +185,7 @@ for N_i in range(1,171):
 	Err3_arr.append(np.abs(f3_analytic - Evalf3_i))
 	
 
-N_arr = np.linspace(1,170,170)
+N_arr = np.linspace(1,200,200)
 
 plt.figure(2)
 plt.title("Function 1 Log Log Plot")
