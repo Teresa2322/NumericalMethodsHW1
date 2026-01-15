@@ -45,8 +45,17 @@ xp6 = NRalgorithm(6)
 xp7 = NRalgorithm(7)
 
 #Sanity check: checking number of roots:
-print("length checks:", len(xp0), len(xp1), len(xp2), len(xp3), len(xp4), len(xp5), len(xp6), len(xp7))
-
+#print("length checks:", len(xp0), len(xp1), len(xp2), len(xp3), len(xp4), len(xp5), len(xp6), len(xp7))
+print("Final results for roots:")
+print("__________________________")
+print("P(0):  ", xp0)
+print("P(1):  ", xp1)
+print("P(2):  ", xp2)
+print("P(3):  ", xp3)
+print("P(4):  ", xp4)
+print("P(5):  ", xp5)
+print("P(6):  ", xp6)
+print("P(7):  ", xp7)
 #Finding the indicator polynomials
 
 def PolInd(N, k):
@@ -59,8 +68,8 @@ def PolInd(N, k):
 	product = sp.prod(jarr)
 	return sp.simplify(product)
 
-print("Trial Polynomial", PolInd(3,1))
-print("Trial Evaluated Polynomial", PolInd(3,1).subs(x, 0.5))
+#print("Trial Polynomial", PolInd(3,1))
+#print("Trial Evaluated Polynomial", PolInd(3,1).subs(x, 0.5))
 
 #N = 7 Legendre Polynomial
 P7 = legendre(7)
@@ -163,7 +172,7 @@ Err1_arr = []
 Err2_arr = []
 Err3_arr = []
 
-for N_i in range(1,151):
+for N_i in range(1,171):
 	Evalf1_i = QuadInt(7, N_i, 0, 1, f1)
 	Evalf2_i = QuadInt(7, N_i, 1, 10, f2)
 	Evalf3_i = QuadInt(7, N_i, -np.pi, 4 - np.pi, f3)
@@ -173,24 +182,30 @@ for N_i in range(1,151):
 	Err3_arr.append(np.abs(f3_analytic - Evalf3_i))
 	
 
-N_arr = np.linspace(1,150,150)
+N_arr = np.linspace(1,170,170)
 
 plt.figure(2)
-plt.title("Function 1")
+plt.title("Function 1 Log Log Plot")
 plt.loglog(N_arr*N_arr, Err1_arr)
 plt.xlabel("N evaluations")
 plt.ylabel("Abs Error")
+plt.savefig('convergence_func1.png', dpi=300)
+plt.close()
 
 plt.figure(3)
-plt.title("Function 2")
+plt.title("Function 2 Log Log Plot")
 plt.loglog(N_arr*N_arr, Err2_arr)
 plt.xlabel("N evaluations")
 plt.ylabel("Abs Error")
+plt.savefig('convergence_func2.png', dpi=300)
+plt.close()
 
 plt.figure(4)
-plt.title("Function 3")
+plt.title("Function 3 Log Log Plot")
 plt.loglog(N_arr*N_arr, Err3_arr)
 plt.xlabel("N evaluations")
 plt.ylabel("Abs Error")
+plt.savefig('convergence_func3.png', dpi=300)
+plt.close()
 
 plt.show()
