@@ -137,18 +137,44 @@ def QuadInt(N, Nsub, a, b, f):
 		subint_arr.append(int_i)
 	return np.sum(subint_arr)
 
-print("testing quadrature", QuadInt(7, 10, 0, 1, np.exp)) 
+def f1(x):
+	return np.exp(x)
+
+f1_analytic = np.exp(1) - 1
+
+def f2(x):
+	return x**1/3 + 1/(1+100*(x-5)**2)
+# expected integral result f2 for given bounds: 15.7179202278389
+
+f2_analytic = 15.7179202278389
+
+def f3(x): 
+	return (x**5)*np.abs(x)
+# expected result for f3 for given bounds: − 431.4213979030774
+f3_analytic = -431.4213979030776
+
+print("testing quadrature function 2", QuadInt(7, 20, 1, 10, f2)) 
+ 
+print("testing quadrature function 3", QuadInt(7, 20, -np.pi, 4 - np.pi, f3))
 
 #preliminary error analysis:
 
-Eval_arr = []
-for N_i in range(1,4):
-	Eval_i = QuadInt(7, N_i, 0, 1, np.exp)
-	Eval_arr.append(Eval_i)
+Err1_arr = []
+Err2_arr = []
+Err3_arr = []
 
-N_arr = np.linspace(1,3,3)
+for N_i in range(1,21):
+	Evalf1_i = QuadInt(7, N_i, 1, 10, f1)
+	Evalf2_i = QuadInt(7, N_i, 1, 10, f2)
+	Evalf3_i = QuadInt(7, N_i, 1, 10, f3)
+	
+	Err1_arr.append(f1_analytic - Evalf1_i)
+	Err2_arr.append(f2_analytic - Evalf2_i)
+	Err3_arr.append(f3_analytic - Evalf3_i)
+	
 
-print("Evals:", Eval_arr)
+N_arr = np.linspace(1,20,20)
 
-plt.plot(N_arr, Eval_arr)
+plt.plot(N_arr, Err2_arr)
+
 plt.show()
