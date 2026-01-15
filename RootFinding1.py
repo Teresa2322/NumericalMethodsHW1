@@ -47,7 +47,7 @@ xp7 = NRalgorithm(7)
 #Sanity check: checking number of roots:
 #print("length checks:", len(xp0), len(xp1), len(xp2), len(xp3), len(xp4), len(xp5), len(xp6), len(xp7))
 print("Final results for roots:")
-print("__________________________")
+print("________________________________________")
 print("P(0):  ", xp0)
 print("P(1):  ", xp1)
 print("P(2):  ", xp2)
@@ -56,6 +56,7 @@ print("P(4):  ", xp4)
 print("P(5):  ", xp5)
 print("P(6):  ", xp6)
 print("P(7):  ", xp7)
+print("_________________________________________")
 #Finding the indicator polynomials
 
 def PolInd(N, k):
@@ -102,6 +103,8 @@ plt.xlabel("x")
 plt.ylabel("y")
 plt.legend()
 
+plt.savefig('IndicPoly.png', dpi=300)
+plt.close()
 
 #Computing the weights
 #Will use simpson integration method, from class sample code
@@ -116,7 +119,7 @@ print("Trying out simpson", simp(-1,1,100,np.sin))
 #function defining weights
 def weights(N, k):
 	phi = sp.lambdify(x, PolInd(N,k), modules='numpy')
-	integral = simp(-1,1,5000,phi) #should probably reconsider how I def this 50000
+	integral = simp(-1,1,10000,phi) 
 
 	return integral 
 
